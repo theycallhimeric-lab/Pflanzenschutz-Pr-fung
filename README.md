@@ -59,130 +59,231 @@ Die persönliche Schutzausrüstung (PSA) ist beim Umgang mit Konzentraten lebens
 *Klicke auf eine Frage, um die Antwort und die Erklärung einzublenden.*
 
 ---
+## 📝 Interaktiver Selbsttest
+Teste dein Wissen für die Sachkundeprüfung.
 
-<details>
-<summary><b>01. Was ist das Kernziel des Integrierten Pflanzenschutzes (IPS)?</b></summary>
-<p>Antwort: Die Kombination von biologischen, bi採echnischen, züchterischen sowie anbautechnischen Maßnahmen, um den Einsatz chemischer Pflanzenschutzmittel auf das notwendige Maß zu beschränken.</p>
-</details>
+<div id="quiz-container" style="background: #f9f9f9; padding: 20px; border-radius: 10px; border: 1px solid #ddd; color: #333;">
+    <div id="question-box">
+        <h3 id="question-text" style="margin-top: 0;">Lade Quiz...</h3>
+        <div id="options-container" style="display: flex; flex-direction: column; gap: 10px;"></div>
+    </div>
+    <div id="feedback" style="margin-top: 20px; font-weight: bold; min-height: 24px;"></div>
+    <div id="score-board" style="margin-top: 20px; font-size: 0.9em; color: #666;">
+        Frage: <span id="current-q">1</span> / <span id="total-q">0</span> | Punkte: <span id="score">0</span>
+    </div>
+    <button id="next-btn" style="display: none; margin-top: 15px; padding: 10px 20px; background: #2ea44f; color: white; border: none; border-radius: 5px; cursor: pointer;">Nächste Frage</button>
+</div>
 
-<details>
-<summary><b>02. In welchem Zeitraum muss die Fortbildung zur Sachkunde erfolgen?</b></summary>
-<p>Antwort: Alle drei Jahre muss eine anerkannte Fortbildungsveranstaltung besucht werden.</p>
-</details>
+<script>
+const quizData = [
+    {
+        q: "Was ist das Hauptziel des integrierten Pflanzenschutzes (IPS)?",
+        o: ["Vollständige Ausrottung aller Schädlinge", "Einsatz chemischer Mittel auf das notwendige Maß beschränken", "Ausschließlicher Verzicht auf Chemie", "Steigerung des Ertrags um jeden Preis"],
+        a: 1,
+        e: "Der IPS nutzt eine Kombination aller Möglichkeiten, um Chemie nur als letzte Instanz (Notwendigkeit) zu nutzen."
+    },
+    {
+        q: "In welchem Rhythmus ist die Fortbildung zur Sachkunde Pflicht?",
+        o: ["Alle 2 Jahre", "Alle 3 Jahre", "Alle 5 Jahre", "Einmalig"],
+        a: 1,
+        e: "Gesetzlich ist ein 3-Jahres-Zeitraum für die Fortbildung vorgeschrieben."
+    },
+    {
+        q: "Wo ist die Anwendung von Pflanzenschutzmitteln grundsätzlich verboten?",
+        o: ["Auf Ackerflächen", "Im Gewächshaus", "Auf versiegelten Flächen (Gehwege)", "In Baumschulen"],
+        a: 2,
+        e: "Auf versiegelten Flächen besteht die Gefahr, dass Mittel direkt in die Kanalisation gelangen."
+    },
+    {
+        q: "Was beschreibt die 'Wartezeit'?",
+        o: ["Zeit zwischen Kauf und Anwendung", "Zeit zwischen Anwendung und Ernte", "Dauer der Spritzpause", "Haltbarkeit des Mittels"],
+        a: 1,
+        e: "Die Wartezeit stellt sicher, dass Rückstände bis zur Ernte unter die Grenzwerte fallen."
+    },
+    {
+        q: "Welche Düsenart reduziert die Abdrift am effektivsten?",
+        o: ["Flachstrahldüsen", "Injektordüsen", "Kegeldüsen", "Nebeldüsen"],
+        a: 1,
+        e: "Injektordüsen erzeugen gröbere, luftgefüllte Tropfen, die weniger windanfällig sind."
+    }
+  {
+        q: "Welches Gesetz bildet die Grundlage für den Pflanzenschutz in Deutschland?",
+        o: ["Düngemittelverordnung", "Pflanzenschutzgesetz (PflSchG)", "Naturschutzgesetz", "Gewerbeordnung"],
+        a: 1,
+        e: "Das PflSchG regelt den Schutz der Kulturpflanzen sowie den Schutz von Mensch, Tier und Naturhaushalt."
+    },
+    {
+        q: "Was ist ein 'Nützling' im Sinne des Pflanzenschutzes?",
+        o: ["Ein besonders ertragreiches Unkraut", "Ein Organismus, der Schaderreger reguliert", "Ein chemischer Zusatzstoff", "Eine spezielle Düsenform"],
+        a: 1,
+        e: "Nützlinge wie Marienkäfer oder Schlupfwespen fressen oder parasitieren Schädlinge."
+    },
+    {
+        q: "Was bedeutet die Abkürzung 'PSA'?",
+        o: ["Pflanzenschutz-Amt", "Persönliche Schutzausrüstung", "Pflanzen-Sicherheits-Abstand", "Primäre Spritz-Anlage"],
+        a: 1,
+        e: "PSA umfasst Schutzkleidung, Handschuhe und Visier zum Schutz des Anwenders."
+    },
+    {
+        q: "Welche Farbe hat die Warntafel für Bienengefährlichkeit der Stufe B1?",
+        o: ["Blau", "Gelb", "Es gibt keine Farbe, es ist eine Kennzeichnung auf dem Etikett", "Grün"],
+        a: 2,
+        e: "Die Bienengefährlichkeit wird durch Texte (B1 bis B4) auf dem Etikett angegeben; B1 ist hochgefährlich."
+    },
+    {
+        q: "Was ist das 'Schadschwellenprinzip'?",
+        o: ["Spritzen nach Kalender", "Spritzen erst, wenn der Schaden teurer wäre als die Spritzung", "Immer die maximale Menge spritzen", "Nur bei Regen spritzen"],
+        a: 1,
+        e: "Es ist die ökonomische Grenze, ab der sich eine Bekämpfungsmaßnahme finanziell lohnt."
+    },
+    {
+        q: "Was versteht man unter 'Abdrift'?",
+        o: ["Das Verrotten von Pflanzen", "Das Wegwehen von Spritznebel auf Nachbarflächen", "Das Versickern im Boden", "Das Mischen von Wirkstoffen"],
+        a: 1,
+        e: "Abdrift gefährdet Nichtzielbiotope und muss durch Technik (z.B. Injektordüsen) minimiert werden."
+    },
+    {
+        q: "Ein 'Herbizid' wirkt gegen...",
+        o: ["Pilze", "Insekten", "Unerwünschte Pflanzen (Unkräuter)", "Viren"],
+        a: 2,
+        e: "Herbizide werden zur Unkrautbekämpfung eingesetzt."
+    },
+    {
+        q: "Was ist eine 'Kontaktwirkung'?",
+        o: ["Das Mittel wirkt über die Wurzel", "Das Mittel wirkt direkt beim Auftreffen auf den Schädling", "Das Mittel wirkt über den Saftstrom", "Das Mittel wirkt nur im Boden"],
+        a: 1,
+        e: "Kontaktmittel müssen den Schaderreger direkt benetzen, um wirksam zu sein."
+    },
+    {
+        q: "Wie lange ist die Aufbewahrungsfrist für Anwendungsaufzeichnungen?",
+        o: ["1 Jahr", "3 Jahre", "10 Jahre", "Gar keine"],
+        a: 1,
+        e: "Anwender müssen ihre Pflanzenschutzmaßnahmen dokumentieren und die Unterlagen 3 Jahre aufbewahren."
+    },
+    {
+        q: "Was ist 'Gute fachliche Praxis'?",
+        o: ["Ein Gesetzestext", "Allgemeine Regeln für verantwortungsvolles Handeln im Ackerbau", "Eine spezielle Prüfung", "Ein Werbeslogan"],
+        a: 1,
+        e: "Sie beschreibt den Stand des Wissens, um Umweltbelastungen so gering wie möglich zu halten."
+    },
+    {
+        q: "Welche Schädlinge werden mit einer Gelbschale überwacht?",
+        o: ["Schnecken", "Fliegende Insekten (z.B. Rapsglanzkäfer)", "Wühlmäuse", "Bodenbakterien"],
+        a: 1,
+        e: "Die gelbe Farbe lockt fliegende Schadinsekten an, die dann im Wasser-Spüli-Gemisch gefangen werden."
+    },
+    {
+        q: "Was bedeutet 'Resistenz'?",
+        o: ["Besonders gute Wirksamkeit", "Unempfindlichkeit von Schaderregern gegen einen Wirkstoff", "Besonders schneller Abbau im Boden", "Hohe Wasserlöslichkeit"],
+        a: 1,
+        e: "Durch häufigen Einsatz gleicher Wirkstoffe können Schädlinge überleben und diese Eigenschaft vererben."
+    },
+    {
+        q: "Was ist ein 'Rodentizid'?",
+        o: ["Mittel gegen Nagetiere", "Mittel gegen Algen", "Mittel gegen Rostpilze", "Mittel gegen Fliegen"],
+        a: 0,
+        e: "Rodentizide (von lat. rodere = nagen) wirken gegen Mäuse, Ratten etc."
+    },
+    {
+        q: "Welcher Abstand zu Oberflächengewässern ist generell einzuhalten?",
+        o: ["Immer 50 Meter", "Je nach Zulassungsauflage des Mittels", "Keiner", "Immer 100 Meter"],
+        a: 1,
+        e: "Die Abstände sind individuell für jedes Mittel festgelegt und im Etikett (NW-Auflagen) vermerkt."
+    },
+    {
+        q: "Was ist 'Antiresistenzmanagement'?",
+        o: ["Höhere Dosen spritzen", "Wirkstoffgruppen regelmäßig wechseln", "Nur noch mechanisch arbeiten", "Weniger Düngen"],
+        a: 1,
+        e: "Durch den Wechsel von Wirkstoffen mit unterschiedlichen Mechanismen wird Resistenz verhindert."
+    },
+    {
+        q: "Was ist eine 'Indikation'?",
+        o: ["Eine Vergiftung", "Die festgelegte Anwendung (Kultur + Schaderreger)", "Ein Preisnachlass", "Die Farbe der Spritzbrühe"],
+        a: 1,
+        e: "Ein Mittel darf nur in der zugelassenen Kultur gegen den genannten Schaderreger genutzt werden."
+    },
+    {
+        q: "Welche Düse erzeugt die feinsten Tropfen?",
+        o: ["Injektordüse", "Hohlkegeldüse", "Flachstrahldüse (Standard)", "Pralltellerdüse"],
+        a: 1,
+        e: "Hohlkegeldüsen erzeugen sehr feine Tropfen, haben aber ein hohes Abdriftrisiko."
+    },
+    {
+        q: "Was ist ein 'Akarizid'?",
+        o: ["Mittel gegen Milben", "Mittel gegen Bakterien", "Mittel gegen Vögel", "Mittel gegen Schnecken"],
+        a: 0,
+        e: "Akarizide bekämpfen Milben (Spinnmilben)."
+    },
+    {
+        q: "Wofür steht 'PAMIRA'?",
+        o: ["Ein neues Insektizid", "Rücknahmesystem für restentleerte PSM-Verpackungen", "Eine Wetterstation", "Ein Verband von Landwirten"],
+        a: 1,
+        e: "PAMIRA sorgt für die sichere und umweltgerechte Entsorgung von Kanistern."
+    },
+    {
+        q: "
+];
 
-<details>
-<summary><b>03. Was beschreibt die wirtschaftliche Schadschwelle?</b></summary>
-<p>Antwort: Die Befallsdichte, bei der die Kosten der Bekämpfungsmaßnahme genauso hoch sind wie der durch den Schädling verursachte finanzielle Schaden.</p>
-</details>
+let currentQuestion = 0;
+let score = 0;
 
-<details>
-<summary><b>04. Darf man Pflanzenschutzmittel auf dem Garagenvorplatz ausbringen?</b></summary>
-<p>Antwort: Nein. Die Anwendung auf befestigten Flächen (versiegelte Flächen) ist verboten, da die Mittel in die Kanalisation abgeschwemmt werden könnten.</p>
-</details>
+const questionText = document.getElementById('question-text');
+const optionsContainer = document.getElementById('options-container');
+const feedback = document.getElementById('feedback');
+const nextBtn = document.getElementById('next-btn');
+const currentQSpan = document.getElementById('current-q');
+const totalQSpan = document.getElementById('total-q');
+const scoreSpan = document.getElementById('score');
 
-<details>
-<summary><b>05. Was ist ein "systemisches" Mittel?</b></summary>
-<p>Antwort: Ein Wirkstoff, der von der Pflanze aufgenommen und über die Leitungsbahnen (Saftstrom) in der gesamten Pflanze verteilt wird.</p>
-</details>
+function loadQuestion() {
+    const q = quizData[currentQuestion];
+    questionText.innerText = q.q;
+    optionsContainer.innerHTML = '';
+    feedback.innerText = '';
+    nextBtn.style.display = 'none';
+    totalQSpan.innerText = quizData.length;
+    currentQSpan.innerText = currentQuestion + 1;
 
-<details>
-<summary><b>06. Welche PSA ist beim Ansetzen der Spritzbrühe am wichtigsten?</b></summary>
-<p>Antwort: Chemikalienbeständige Handschuhe (Nitril), Schutzanzug, Gummistiefel und Gesichtsschutz (Visier), da hier mit dem Konzentrat gearbeitet wird.</p>
-</details>
+    q.o.forEach((option, index) => {
+        const btn = document.createElement('button');
+        btn.innerText = option;
+        btn.style.cssText = "padding: 10px; text-align: left; border: 1px solid #ccc; border-radius: 5px; cursor: pointer; background: white;";
+        btn.onclick = () => checkAnswer(index);
+        optionsContainer.appendChild(btn);
+    });
+}
 
-<details>
-<summary><b>07. Was versteht man unter "Abdrift"?</b></summary>
-<p>Antwort: Das Verwehen von Spritztropfen durch Wind auf Flächen außerhalb der Zielfläche.</p>
-</details>
+function checkAnswer(index) {
+    const q = quizData[currentQuestion];
+    const buttons = optionsContainer.getElementsByTagName('button');
+    
+    for (let btn of buttons) btn.disabled = true;
 
-<details>
-<summary><b>08. Was ist ein "Fungizid"?</b></summary>
-<p>Antwort: Ein Pflanzenschutzmittel zur Bekämpfung von Pilzkrankheiten.</p>
-</details>
+    if (index === q.a) {
+        score++;
+        scoreSpan.innerText = score;
+        feedback.innerText = "✅ Richtig! " + q.e;
+        feedback.style.color = "green";
+        buttons[index].style.background = "#d4edda";
+    } else {
+        feedback.innerText = "❌ Falsch. " + q.e;
+        feedback.style.color = "red";
+        buttons[index].style.background = "#f8d7da";
+        buttons[q.a].style.background = "#d4edda";
+    }
+    nextBtn.style.display = 'block';
+}
 
-<details>
-<summary><b>09. Wie müssen leere Pflanzenschutzkanister entsorgt werden?</b></summary>
-<p>Antwort: Mehrfach spülen (Spülwasser in den Tank), trocknen lassen und über das PAMIRA-System entsorgen.</p>
-</details>
+nextBtn.onclick = () => {
+    currentQuestion++;
+    if (currentQuestion < quizData.length) {
+        loadQuestion();
+    } else {
+        document.getElementById('question-box').innerHTML = "<h3>Quiz beendet!</h3>";
+        feedback.innerText = "Dein Endergebnis: " + score + " von " + quizData.length + " Punkten.";
+        nextBtn.style.display = 'none';
+    }
+};
 
-<details>
-<summary><b>10. Was ist eine Gelbschale?</b></summary>
-<p>Antwort: Ein Monitoring-Werkzeug (Fangschale), um den Zuflug von Schädlingen wie dem Rapsglanzkäfer zu überwachen.</p>
-</details>
-
-<details>
-<summary><b>11. Was bedeutet "Wartezeit" bei einem Pflanzenschutzmittel?</b></summary>
-<p>Antwort: Der gesetzlich vorgeschriebene Zeitraum zwischen der letzten Anwendung und der Ernte des Erzeugnisses.</p>
-</details>
-
-<details>
-<summary><b>12. Was sind "Nützlinge"?</b></summary>
-<p>Antwort: Organismen wie Marienkäfer oder Schlupfwespen, die Schädlinge fressen oder parasitieren und so den Befall natürlich regulieren.</p>
-</details>
-
-<details>
-<summary><b>13. Wann ist der beste Zeitpunkt für eine Spritzung gegen Windhalm?</b></summary>
-<p>Antwort: Meist im Herbst oder zeitigen Frühjahr, wenn der Windhalm noch im frühen Keimblatt- oder Laubblattstadium ist.</p>
-</details>
-
-<details>
-<summary><b>14. Was ist ein "Herbizid"?</b></summary>
-<p>Antwort: Ein Mittel zur Bekämpfung von unerwünschten Kräutern und Gräsern.</p>
-</details>
-
-<details>
-<summary><b>15. Welche Düsenart mindert die Abdrift am stärksten?</b></summary>
-<p>Antwort: Injektordüsen (Antidriftdüsen), die größere, luftgefüllte Tropfen erzeugen.</p>
-</details>
-
-<details>
-<summary><b>16. Was ist "Resistenzbildung"?</b></summary>
-<p>Antwort: Wenn Schaderreger durch häufige Anwendung desselben Wirkstoffs unempfindlich gegenüber diesem Mittel werden.</p>
-</details>
-
-<details>
-<summary><b>17. Wie wird die Spritze nach der Arbeit gereinigt?</b></summary>
-<p>Antwort: Auf einer unbefestigten Fläche (bewachsener Boden), die weit genug von Gewässern entfernt ist, unter Nutzung der Innenreinigungseinrichtung.</p>
-</details>
-
-<details>
-<summary><b>18. Was bedeutet "Bienengefährlich (B1)"?</b></summary>
-<p>Antwort: Das Mittel darf nicht auf blühende Pflanzen oder Pflanzen, die von Bienen beflogen werden, ausgebracht werden.</p>
-</details>
-
-<details>
-<summary><b>19. Was ist ein "Insektizid"?</b></summary>
-<p>Antwort: Ein Mittel zur Bekämpfung von schädlichen Insekten.</p>
-</details>
-
-<details>
-<summary><b>20. Welches Gesetz regelt den Umgang mit Pflanzenschutzmitteln in Deutschland?</b></summary>
-<p>Antwort: Das Pflanzenschutzgesetz (PflSchG).</p>
-</details>
-
-<details>
-<summary><b>21. Was ist der Unterschied zwischen biotischen und abiotischen Schäden?</b></summary>
-<p>Antwort: Biotisch = durch Lebewesen (Pilze, Insekten). Abiotisch = durch Umweltfaktoren (Frost, Hitze, Nährstoffmangel).</p>
-</details>
-
-<details>
-<summary><b>22. Was ist eine "Punkt-Applikation"?</b></summary>
-<p>Antwort: Die gezielte Behandlung nur einzelner Pflanzen oder kleiner Nester statt der ganzen Fläche.</p>
-</details>
-
-<details>
-<summary><b>23. Was sind Pheromonfallen?</b></summary>
-<p>Antwort: Fallen, die mit Sexuallockstoffen arbeiten, um Männchen bestimmter Insektenarten anzulocken (Dient dem Monitoring).</p>
-</details>
-
-<details>
-<summary><b>24. Was bedeutet "Indikation"?</b></summary>
-<p>Antwort: Die festgelegte Anwendung eines Mittels gegen einen bestimmten Schaderreger in einer bestimmten Kultur.</p>
-</details>
-
-<details>
-<summary><b>25. Wer ist für die Zulassung von Pflanzenschutzmitteln in Deutschland zuständig?</b></summary>
-<p>Antwort: Das Bundesamt für Verbraucherschutz und Lebensmittelsicherheit (BVL).</p>
-</details>
-
-*(... hier folgen im gleichen Stil weitere Fragen bis Nr. 50 ...)*
+loadQuestion();
+</script>
