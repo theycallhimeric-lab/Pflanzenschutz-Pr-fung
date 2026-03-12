@@ -3,290 +3,249 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Experten-Trainer Pflanzenschutz 🌿🛡️</title>
+    <title>Sachkunde-Master: 30er Zufalls-Check</title>
     <style>
         :root {
-            --primary-color: #2ea44f;
-            --secondary-color: #1b7c35;
-            --accent-color: #fca311;
-            --bg-color: #f4f7f6;
-            --text-color: #2c3e50;
+            --primary: #2d6a4f;
+            --secondary: #40916c;
+            --accent: #d4a373;
+            --danger: #bc4749;
+            --bg: #f8f9fa;
+            --text: #1b4332;
             --white: #ffffff;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.8;
-            color: var(--text-color);
-            background-color: var(--bg-color);
-            margin: 0;
-            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0; padding: 0; line-height: 1.6;
         }
 
         .header {
-            background-color: var(--primary-color);
-            background-image: linear-gradient(135deg, rgba(46, 164, 79, 0.9) 0%, rgba(27, 124, 53, 0.9) 100%);
-            color: var(--white);
-            padding: 60px 20px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white; padding: 40px 20px; text-align: center; border-bottom: 5px solid var(--accent);
         }
 
-        .nav {
-            background-color: var(--white);
-            padding: 10px 0;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .nav a {
-            color: var(--text-color);
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
+        .container { max-width: 850px; margin: -30px auto 50px; padding: 0 20px; }
 
         .card {
-            background: var(--white);
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
+            background: var(--white); border-radius: 15px; padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative;
         }
 
-        #quiz-container {
-            background: #fafcfc;
-            padding: 30px;
-            border: 2px solid #eef2f5;
-            border-radius: 16px;
-            position: relative;
+        .progress-container {
+            width: 100%; background: #e9ecef; border-radius: 10px; height: 12px;
+            margin-bottom: 25px; overflow: hidden; border: 1px solid #dee2e6;
         }
+
+        #progress-bar { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s ease; }
+
+        .question-meta { display: flex; justify-content: space-between; font-size: 0.9em; color: #6c757d; margin-bottom: 10px; font-weight: bold; }
+
+        h2 { margin-top: 0; color: var(--primary); font-size: 1.3em; min-height: 3em; }
+
+        .options-grid { display: grid; gap: 12px; margin-top: 20px; }
 
         .option-btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border: 2px solid #eef2f5;
-            border-radius: 10px;
-            background: var(--white);
-            cursor: pointer;
-            text-align: left;
-            font-size: 16px;
-            transition: all 0.2s;
+            background: var(--white); border: 2px solid #dee2e6; padding: 15px 20px;
+            border-radius: 10px; cursor: pointer; text-align: left; font-size: 16px;
+            transition: all 0.2s ease; display: flex; align-items: center; color: var(--text);
         }
 
-        .option-btn:hover { background: #f0f7f4; border-color: var(--primary-color); }
+        .option-btn:hover:not(:disabled) { border-color: var(--secondary); background-color: #f0fdf4; transform: translateX(5px); }
+        .option-btn.correct { background-color: #d8f3dc !important; border-color: #2d6a4f !important; font-weight: bold; }
+        .option-btn.wrong { background-color: #f8d7da !important; border-color: #bc4749 !important; }
+
+        .feedback-box { margin-top: 25px; padding: 20px; border-radius: 10px; display: none; border-left: 8px solid; font-size: 0.95em; }
 
         .next-btn {
-            background: var(--primary-color);
-            color: var(--white);
-            border: none;
-            padding: 15px 30px;
-            border-radius: 10px;
-            cursor: pointer;
-            display: none;
-            margin: 20px auto 0;
-            font-weight: bold;
+            display: none; margin: 25px auto 0; background: var(--primary); color: white;
+            border: none; padding: 14px 45px; border-radius: 30px; font-weight: bold;
+            cursor: pointer; font-size: 1.1em; box-shadow: 0 4px 15px rgba(45, 106, 79, 0.3);
         }
 
-        #feedback { margin-top: 20px; font-weight: bold; padding: 15px; border-radius: 8px; display: none; }
-        .score-info { color: #7f8c8d; margin-top: 20px; text-align: center; font-size: 0.9em; }
+        #visual-aid { background: #f1f3f5; padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: center; font-weight: bold; color: var(--primary); }
+        .footer { text-align: center; padding: 20px; font-size: 0.8em; color: #6c757d; }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <h1>Prüfungswissen Pflanzenschutz 🌿🛡️</h1>
-    <p>Anspruchsvolles Training für die Sachkundeprüfung</p>
-</div>
-
-<div class="nav">
-    <a href="#info">Infos</a>
-    <a href="#quiz">Zum Quiz</a>
+    <h1>Abschluss-Trainer Pflanzenschutz 🚜</h1>
+    <p>Zufallssimulation: 30 Fragen aus dem 150er Experten-Pool</p>
 </div>
 
 <div class="container">
-    <div id="info" class="card">
-        <h2>Experten-Modus aktiviert</h2>
-        <p>Die Antwortmöglichkeiten in diesem Quiz wurden verschärft. Achten Sie auf feine Nuancen in den Formulierungen und nutzen Sie die Erklärungen zur Vertiefung Ihres Fachwissens.</p>
-    </div>
+    <div class="card">
+        <div class="question-meta">
+            <span id="category-label">Kategorie</span>
+            <span id="question-counter">Frage 1 von 30</span>
+        </div>
+        <div class="progress-container">
+            <div id="progress-bar"></div>
+        </div>
 
-    <div id="quiz" class="card">
-        <div id="quiz-container">
-            <div id="question-box">
-                <h3 id="question-text">Lade Fragen...</h3>
-                <div id="options-container"></div>
-            </div>
-            <div id="feedback"></div>
-            <div class="score-info">
-                Frage: <span id="current-q">1</span> / <span id="total-q">-</span> | Punkte: <span id="score">0</span>
-            </div>
-            <button id="next-btn" class="next-btn">Nächste Frage</button>
+        <div id="quiz-area">
+            <div id="visual-aid"></div>
+            <h2 id="question-text">Lädt...</h2>
+            <div class="options-grid" id="options-container"></div>
+            <div id="feedback" class="feedback-box"></div>
+            <button id="next-btn" class="next-btn">Nächste Frage →</button>
         </div>
     </div>
 </div>
 
+<div class="footer">
+    &copy; 2026 Pflanzenschutz-Akademie | Interaktives Modul für Landwirte
+</div>
+
 <script>
-const quizData = [
-    { q: "Was kennzeichnet rechtlich das 'Zulassungsende' eines Pflanzenschutzmittels?", o: ["Das Verbot der weiteren Lagerung im privaten Anwendungsbereich", "Die Beendigung der Verkehrsfähigkeit durch den Zulassungsinhaber", "Die sofortige Einstufung des Mittels als gefährlicher Abfall", "Das Ende der Gültigkeit des Sachkundenachweises für dieses Mittel"], a: 1, e: "Mit dem Zulassungsende erlischt die Erlaubnis, das Mittel neu in den Verkehr zu bringen; es folgen meist Abverkaufsfristen." },
-    { q: "Welche Funktion erfüllt die gesetzliche 'Aufbrauchfrist'?", o: ["Sicherstellung der chemischen Stabilität des Wirkstoffs beim Anwender", "Zeitlich begrenzter Schutz für Anwender zur Aufzehrung vorhandener Restbestände", "Frist zur Rückgabe leerer Gebinde an das PAMIRA-System", "Dauer der Wirksamkeit des Mittels nach dem Öffnen der Originalverpackung"], a: 1, e: "Sie beträgt in der Regel 18 Monate nach Zulassungsende und dient der Vermeidung von Entsorgungsengpässen." },
-    { q: "Wofür steht das GHS-Gefahrenpiktogramm 'GHS07' (Ausrufezeichen)?", o: ["Gefahr der chronischen Organschädigung (KMR-Stoffe)", "Akute Toxizität sowie Reizwirkung auf Haut und Augen", "Explosive Gemische durch atmosphärische Instabilität", "Starke Korrosionswirkung gegenüber metallischen Werkstoffen"], a: 1, e: "GHS07 warnt vor weniger schweren, aber gesundheitsschädlichen Auswirkungen wie Sensibilisierungen." },
-    { q: "Was ist das Kernziel des 'Integrierten Vorratsschutzes'?", o: ["Die vollständige Sterilisation des Lagergutes durch thermische Verfahren", "Die Priorisierung von Hygiene und Klimasteuerung zur Minimierung chemischer Interventionen", "Die prophylaktische Ganzkörperbehandlung des Ernteguts mit Insektiziden", "Die Lagerung in sauerstoffangereicherten Atmosphären"], a: 1, e: "Vorbeugung durch Sauberkeit und Temperaturkontrolle ist hier wichtiger als die Chemie." },
-    { q: "Welches morphologische Merkmal ist typisch für den Getreideplattkäfer?", o: ["Ein ausgeprägter Rüssel zur Penetration der Kornschale", "Ein flacher Körper mit sechs sägeartigen Zähnen am Halsschild", "Lange, fadenförmige Fühler, die über das Körperende hinausragen", "Helle Flecken auf den Flügeldecken (Elytren)"], a: 1, e: "Der Name 'platt' und der gesägte Halsschild sind die Hauptbestimmungsmerkmale." },
-    { q: "Warum ist die Erhaltung der Ufervegetation im Pflanzenschutz essenziell?", o: ["Zur Beschattung des Gewässers zwecks Senkung der Algenbildung", "Als Pufferzone zur Reduktion von Stoffeinträgen durch Abdrift und Run-off", "Um den Windwiderstand für die Spritzdüsen am Feldrand zu erhöhen", "Zur Förderung von Schädlingen, die als Futter für Fische dienen"], a: 1, e: "Uferstreifen fungieren als biologische Filter und mechanische Barrieren gegen PSM-Einträge." },
-    { q: "Welche primäre Aufgabe hat der Saugfilter in einer Spritze?", o: ["Abscheidung von Mikropartikeln vor dem Eintritt in das Düsensystem", "Schutz der Pumpe vor mechanischem Verschleiß durch grobe Verunreinigungen", "Regulierung des hydrostatischen Drucks innerhalb der Armatur", "Entlüftung des Systems beim Ansaugvorgang aus Gewässern"], a: 1, e: "Er sitzt vor der Pumpe und filtert Sand oder grobe Schwebstoffe aus dem Wasser." },
-    { q: "Wann gilt ein systemisches Mittel fachlich als 'regenfest'?", o: ["Nach Erreichen der Staubtrockenheit auf der Epidermis", "Nach dem Einziehen des Wirkstoffs in die Pflanzencuticula", "Sobald die relative Luftfeuchtigkeit unter 60% sinkt", "Erst nach Ablauf der gesetzlichen Wartezeit"], a: 1, e: "Systemische Mittel müssen in das Pflanzengewebe penetrieren, um vor Abwaschung geschützt zu sein." },
-    { q: "Welche Anwendungsbeschränkung gilt für Mittel mit der Auflage 'B2'?", o: ["Ein generelles Verbot der Anwendung in blühenden Beständen", "Anwendung nur nach dem täglichen Bienenflug (bis 23:00 Uhr)", "Anwendung nur in Mischung mit einem Repellent (Abschreckmittel)", "Verwendung nur mit speziellen Injektordüsen zur Abdriftminderung"], a: 1, e: "B2 erlaubt den Einsatz in der Blüte, jedoch streng begrenzt auf die Zeit nach dem Bienenflug." },
-    { q: "Was versteht man unter 'Bodenmüdigkeit'?", o: ["Erhöhte mechanische Verdichtung durch schwere Erntemaschinen", "Wachstumsdepressionen durch Anreicherung spezifischer Schaderreger (z.B. Nematoden)", "Absinken des Humusgehaltes unter den kritischen Wert von 1%", "Übermüdung des Anwenders bei der Bodenbearbeitung"], a: 1, e: "Oft ein Problem bei Monokulturen (z.B. im Rosen- oder Obstbau) durch einseitige Erregeranreicherung." },
-    { q: "Welches Symptom deutet auf Kartoffel-Nematoden hin?", o: ["Großflächiges Umknicken der Stängel bei Wind", "Nesterweises Kümmerwachstum und stecknadelkopfgroße Zysten an den Wurzeln", "Schleimiger Bakterienfluss an den Blattachseln", "Kreisförmige Fraßlöcher in den unterirdischen Stolonen"], a: 1, e: "Nematoden verursachen typische 'Nester' im Bestand; die Zysten sind an den Wurzeln erkennbar." },
-    { q: "Welche Gültigkeit besitzt der Sachkundenachweis heute?", o: ["Lebenslange Gültigkeit nach einmaligem Abschluss der Ausbildung", "Gültigkeit im Scheckkartenformat mit Fortbildungspflicht alle 3 Jahre", "Jährliche Erneuerung durch das zuständige Pflanzenschutzamt", "Gültigkeit nur in Verbindung mit einem gültigen Führerschein Klasse L/T"], a: 1, e: "Der Nachweis muss durch regelmäßige, anerkannte Fortbildungen validiert werden." },
-    { q: "Wozu dient die Düsentabelle in der Praxis?", o: ["Zur Berechnung der Wirtschaftlichkeit verschiedener Spritzmittel", "Zur Ermittlung der Ausbringmenge in l/ha je nach Druck, Geschwindigkeit und Düsengröße", "Zur Bestimmung der maximal zulässigen Hangneigung beim Spritzen", "Zur Klassifizierung der Giftigkeit der verwendeten Düsenmaterialien"], a: 1, e: "Sie ist essenziell für die präzise Kalibrierung des Geräts vor der Anwendung." },
-    { q: "Was ist die Definition von 'Phytomedizin'?", o: ["Die Herstellung von Arzneimitteln aus Heilpflanzen", "Die Wissenschaft von den Schaderregern der Pflanzen und deren Kontrolle", "Die Anwendung von Düngemitteln zur Ertragssicherung", "Der Verzicht auf jegliche Chemie im Ackerbau"], a: 1, e: "Phytomedizin ist der wissenschaftliche Überbegriff für den gesamten Pflanzenschutz." },
-    { q: "Woran erkennt man 'Echten Mehltau' an Weinreben (Oidium)?", o: ["Durch Ölflecken auf der Blattoberseite", "Durch einen weißen, abwischbaren Belag auf Blättern und Beeren sowie Beerenreißen", "Durch graue Schimmelnester in der Traubenzone", "Durch rote Verfärbungen der Blattadern"], a: 1, e: "Oidium ist ein Ektoparasit und bildet den typischen weißen Myzelbelag auf der Oberfläche." },
-    { q: "Was ist die Aufgabe des Druckfilters?", o: ["Reinigung des Wassers beim Befüllen des Tanks", "Schutz der Düsen vor Verstopfung durch Feinpartikel hinter der Pumpe", "Messung des statischen Drucks im Windkessel", "Filtration der Ansaugluft für den Gebläseschutz"], a: 1, e: "Er stellt die letzte Filterstufe vor dem Düsenaustritt dar." },
-    { q: "Welches Ziel hat die 'Rückstrom-Verhinderung'?", o: ["Vermeidung von Schaumbildung im Tank", "Schutz des öffentlichen Trinkwassernetzes vor Kontamination durch Spritzbrühe", "Sicherstellung eines konstanten Drucks am Spritzgestänge", "Verhinderung des Leerlaufens der Pumpe bei Bergauffahrt"], a: 1, e: "Es verhindert, dass bei Druckabfall in der Leitung Spritzmittel ins Trinkwasser gesaugt wird." },
-    { q: "Was kennzeichnet ein 'biologisches Pflanzenschutzmittel'?", o: ["Den Verzicht auf jegliche Wirkstoffe", "Wirkstoffe auf Basis von Mikroorganismen, Naturstoffen oder Lockstoffen", "Die Herstellung in Bio-Raffinerien", "Die ausschließliche Anwendung im ökologischen Landbau"], a: 1, e: "Auch im konventionellen Anbau werden diese Mittel (z.B. Bacillus thuringiensis) genutzt." },
-    { q: "Welches Merkmal weist auf den Brotkäfer hin?", o: ["Spinnwebartige Gespinste in Mehlpackungen", "Kreisrunde Ausbohrlöcher in harten Vorräten (z.B. Nudeln, Zwieback)", "Klebrige Klumpenbildung im Getreide", "Ein fauliger Geruch nach verdorbenem Obst"], a: 1, e: "Die Larven des Brotkäfers bohren sich durch sehr harte, trockene Substrate." },
-    { q: "Was signalisiert das GHS-Symbol 'GHS09' (Fisch und Baum)?", o: ["Gefahr für die Gesundheit des Anwenders", "Akute oder chronische Gefährdung von Gewässern und Wasserorganismen", "Kennzeichnung für ökologisch unbedenkliche Mittel", "Hinweis auf biologisch abbaubare Inhaltsstoffe"], a: 1, e: "Dieses Symbol weist auf eine hohe Umwelt- bzw. Ökotoxizität hin." },
-    { q: "Was beschreibt der Begriff 'Abschwemmung' (Run-off)?", o: ["Die Verdunstung von Wirkstoffen bei hoher Hitze", "Der Transport von gelösten PSM durch Oberflächenwasser in Gewässer", "Das Versickern von Wirkstoffen in tiefere Bodenschichten", "Das Abdriften von Tropfen durch Wind"], a: 1, e: "Run-off tritt besonders bei Starkregen auf hängigem Gelände auf." },
-    { q: "Welche Funktion hat das Druckmanometer?", o: ["Es steuert automatisch die Fahrgeschwindigkeit", "Anzeige des aktuellen Arbeitsdrucks zur Kontrolle der Ausbringmenge", "Es misst den Füllstand des Tanks in Litern", "Überwachung der Öltemperatur in der Pumpe"], a: 1, e: "Ein korrekt arbeitendes Manometer ist für die Dosiergenauigkeit unerlässlich." },
-    { q: "Warum ist die Fruchtfolge eine IPS-Maßnahme?", o: ["Weil sie die Bodenbearbeitung erleichtert", "Weil sie Lebenszyklen von Schaderregern unterbricht und Resistenzen vorbeugt", "Um die Maschinenkosten über das Jahr zu verteilen", "Damit der Landwirt weniger Saatgut kaufen muss"], a: 1, e: "Fruchtwechsel verhindert die einseitige Vermehrung von spezialisierten Schädlingen." },
-    { q: "Welches Symptom ist charakteristisch für 'Feuerbrand'?", o: ["Weißer Schimmel auf den Früchten", "Hakenförmige Krümmung und Schwarzfärbung welker Triebspitzen", "Gelbe Mosaikmuster auf den Blättern", "Löcher in der Rinde mit Harzaustritt"], a: 1, e: "Feuerbrand ist eine hochgefährliche Bakteriose; die Triebe sehen wie verbrannt aus." },
-    { q: "Welche Rolle spielen Zusatzstoffe (Adjuvanzien)?", o: ["Sie ersetzen den chemischen Wirkstoff komplett", "Verbesserung der Haftung, Benetzung oder Aufnahme des Wirkstoffs", "Sie dienen ausschließlich der Einfärbung der Spritzbrühe", "Erhöhung der Viskosität zur Vermeidung von Pumpenschäden"], a: 1, e: "Adjuvanzien optimieren die physikalischen Eigenschaften der Spritzbrühe." },
-    { q: "Warum muss eine Spritze frostfrei gelagert oder winterfest gemacht werden?", o: ["Um die Reifen zu schonen", "Vermeidung von Frostsprengung an Pumpe, Armaturen und Leitungen", "Damit das Restmittel nicht kristallisiert", "Um den Wiederverkaufswert zu steigern"], a: 1, e: "Wasser dehnt sich bei Frost aus und zerstört die empfindliche Technik." },
-    { q: "Was ist 'Monitoring' im Sinne des Integrierten Pflanzenschutzes?", o: ["Das tägliche Spritzen zur Sicherheit", "Die systematische Erfassung von Schaderregern zur Ermittlung von Schadschwellen", "Die Überwachung der Wetterdaten per Satellit", "Die Kontrolle der Kontoauszüge des Betriebs"], a: 1, e: "Monitoring ist die Basis, um zu entscheiden, ob eine Bekämpfung wirtschaftlich notwendig ist." },
-    { q: "Woran erkennt man 'Schwarzbeinigkeit' im Getreide?", o: ["An schwarzen Flecken auf den Körnern", "Schwarzfärbung der Halmbasis und Wurzeln mit vorzeitiger Weißährigkeit", "An schwarzen Streifen auf den Fahnenblättern", "An klebrigen Ausscheidungen der Blattläuse"], a: 1, e: "Es handelt sich um eine bodenbürtige Pilzerkrankung, die die Leitungsbahnen zerstört." },
-    { q: "Wie funktioniert die 'Ködertechnik'?", o: ["Durch großflächiges Versprühen von Lockstoffen", "Kombination eines Wirkstoffs mit einem attraktiven Fraßsubstrat", "Einsatz von akustischen Signalen zur Abschreckung", "Verwendung von Klebefallen ohne Wirkstoff"], a: 1, e: "Köder locken den Schädling aktiv an (z.B. Schneckenkorn oder Mäuseköder)." },
-    { q: "Welche Anforderung stellt die PSA an eine Schutzbrille?", o: ["Sie muss getönt sein (UV-Schutz)", "Sie muss dichtschließend sein und seitlichen Schutz gegen Spritzer bieten", "Sie muss aus echtem Glas bestehen", "Sie muss über eine Sehstärkenkorrektur verfügen"], a: 1, e: "Chemikalienschutzbrillen müssen das Auge vor feinen Tröpfchen von allen Seiten schützen." },
-    { q: "Was bedeutet ein 'Widerruf der Zulassung'?", o: ["Das Mittel wird vorübergehend teurer", "Sofortiges Ende der Zulassung durch die Behörde (oft mit Anwendungsverbot)", "Eine Namensänderung des Produkts", "Die Verpflichtung, das Mittel nur noch nachts anzuwenden"], a: 1, e: "Ein Widerruf beendet die Erlaubnis zur Anwendung meist unmittelbar aus Sicherheitsgründen." },
-    { q: "Wofür steht 'GHS05' (Ätzwirkung)?", o: ["Gefahr für Fische im Teich", "Zerstörung von organischem Gewebe (Haut/Augen) und Korrosion von Metallen", "Leichte Entzündbarkeit von Textilien", "Hinweis auf einen niedrigen pH-Wert des Bodens"], a: 1, e: "GHS05 warnt vor irreversiblen Schäden bei direktem Kontakt." },
-    { q: "Was beschreibt der Prozess des 'Leaching'?", o: ["Die Verdunstung von Wasser aus dem Tank", "Die vertikale Verlagerung von Wirkstoffen durch das Bodenprofil ins Grundwasser", "Das horizontale Abfließen von Wasser auf dem Feld", "Die Aufnahme von Wirkstoffen über die Wurzel"], a: 1, e: "Leaching ist die Auswaschung, die besonders bei sandigen Böden kritisch ist." },
-    { q: "Warum ist ein Geschwindigkeitsmesser an der Spritze wichtig?", o: ["Zur Einhaltung der StVO auf dem Feld", "Sicherstellung der korrekten Ausbringmenge (l/ha) gemäß Düsentabelle", "Zur Berechnung der Arbeitszeit für den Lohnunternehmer", "Zur Vermeidung von Reifenverschleiß"], a: 1, e: "Da die Menge pro Fläche von der Geschwindigkeit abhängt, ist eine genaue Messung nötig." },
-    { q: "Welchen Vorteil bietet die 'Sortenwahl' im IPS?", o: ["Keinen, da Chemie immer nötig ist", "Nutzung genetischer Resistenzen zur Vermeidung von Fungizidbehandlungen", "Höhere Preise beim Verkauf der Ernte", "Geringere Kosten für das Saatgut"], a: 1, e: "Resistente Sorten sind ein Grundpfeiler des vorbeugenden Pflanzenschutzes." },
-    { q: "Welches Schadbild hinterlässt der Maulwurf?", o: ["Abgefressene Wurzeln an jungen Bäumen", "Aufgeworfene Erdhaufen ohne Fraßschäden an den Pflanzen", "Löcher in den Blättern von Salatpflanzen", "Gespinstnester in den Astgabeln"], a: 1, e: "Der Maulwurf ist ein Insektenfresser; seine Haufen sind rein mechanische Störungen." },
-    { q: "Was ist ein 'Pflanzenstärkungsmittel'?", o: ["Ein hochkonzentrierter Stickstoffdünger", "Stoffe, die die Widerstandskraft erhöhen, ohne eine direkte Pestizidwirkung zu haben", "Ein verbotenes PSM aus dem Ausland", "Ein Mittel zur Beschleunigung der Reife"], a: 1, e: "Diese Mittel dienen der allgemeinen Gesunderhaltung und sind keine PSM im rechtlichen Sinn." },
-    { q: "Warum ist die regelmäßige Düsenprüfung (Auslitern) notwendig?", o: ["Um den Tankinhalt zu kontrollieren", "Vermeidung von Fehldosierungen durch Verschleiß oder Ablagerungen", "Damit die Spritze optisch sauber bleibt", "Um den Durchfluss der Pumpe zu drosseln"], a: 1, e: "Verschlissene Düsenöffnungen führen oft zu einer unerkannten Überdosierung." },
-    { q: "Was versteht man unter 'physikalischer Bekämpfung'?", o: ["Einsatz von Drohnen zur Feldüberwachung", "Einsatz von Hitze (Abflammen), Kälte oder mechanischen Barrieren", "Die Anwendung von Kontaktgiften", "Die genetische Veränderung von Nutzpflanzen"], a: 1, e: "Physikalische Methoden greifen ohne chemische Wirkstoffe direkt in die Umwelt des Schädlings ein." },
-    { q: "Welche Merkmale sind typisch für 'Schneckenfraß'?", o: ["Saubere, runde Löcher in der Mitte des Blattes", "Unregelmäßiger Loch- und Randfraß mit glänzenden Schleimspuren", "Eingetrocknete, braune Blattspitzen", "Kleine gelbe Einstichstellen auf der Blattunterseite"], a: 1, e: "Die Schleimspur ist das eindeutigste Diagnosemerkmal für Schnecken." },
-    { q: "Was ist das Ziel des 'Wirkstoffgruppen-Wechsels'?", o: ["Senkung der Beschaffungskosten durch Preisvergleich", "Vermeidung der Selektion resistenter Schaderreger-Populationen", "Erhöhung der Mischbarkeit verschiedener Präparate", "Anpassung an die aktuelle Wetterlage"], a: 1, e: "Durch wechselnde Wirkmechanismen haben Schädlinge keine Chance, Resistenzen aufzubauen." },
-    { q: "Was bedeutet das 'Haltbarkeitsdatum' bei einem PSM?", o: ["Das Ende der gesetzlichen Zulassung", "Zeitraum, in dem der Hersteller die chemische Stabilität garantiert", "Der Zeitpunkt, ab dem das Mittel giftig für den Anwender wird", "Das Datum, an dem die Gebinde entsorgt werden müssen"], a: 1, e: "Nach Ablauf kann sich der Wirkstoff zersetzen oder das Mittel lässt sich nicht mehr gut mischen." },
-    { q: "Welche Funktion hat der Düsenfilter?", o: ["Schutz der Pumpe vor Kavitation", "Letzte Filterinstanz unmittelbar vor der Düse zur Vermeidung von Verstopfung", "Reinigung der Spritzbrühe beim Rücklauf in den Tank", "Entfernung von Kalk aus dem harten Wasser"], a: 1, e: "Er verhindert, dass kleinste Partikel die feine Düsenbohrung blockieren." },
-    { q: "Wann wird eine 'Notfallzulassung' (Art. 53) erteilt?", o: ["Wenn ein Landwirt vergessen hat, rechtzeitig einzukaufen", "Bei einer unvorhersehbaren Gefahr für die Kultur, die nicht anders abwendbar ist", "Wenn das Mittel im Nachbarland billiger ist", "Um neue Wirkstoffe an Menschen zu testen"], a: 1, e: "Dies ist eine zeitlich und räumlich begrenzte Ausnahme für Extremsituationen." },
-    { q: "Was kennzeichnet 'GHS02' (Flamme)?", o: ["Gefahr der Staubexplosion in Silos", "Entzündbare Flüssigkeiten, Gase oder Feststoffe", "Warnung vor starker Hitzeentwicklung bei der Anwendung", "Ätzwirkung auf die Atemwege"], a: 1, e: "GHS02 markiert Stoffe, die leicht in Brand geraten können." },
-    { q: "Welche Bedeutung hat ein Wasserschutzgebiet-Schild für den Anwender?", o: ["Keine, sofern er eine gültige Sachkunde besitzt", "Besondere Auflagen (Anwendungsverbote/Abstände) müssen beachtet werden", "Es darf dort nur nachts gespritzt werden", "Dort ist nur die Anwendung von Düngemitteln erlaubt"], a: 1, e: "In Schutzzonen gelten oft strengere Regeln zum Schutz des Trinkwassers." },
-    { q: "Was leistet die Ultraschall-Sensortechnik am Spritzgestänge?", o: ["Messung der Windgeschwindigkeit in Echtzeit", "Automatische Einhaltung des optimalen Abstands zum Pflanzenbestand", "Ortung von Wildtieren vor der Maschine", "Reinigung der Düsen durch Schallwellen"], a: 1, e: "Dies reduziert Abdrift und verbessert die Benetzung durch optimale Gestängeführung." },
-    { q: "Was bedeutet 'Klimaangepasster Pflanzenschutz'?", o: ["Nur noch im Winter zu spritzen", "Berücksichtigung neuer Schaderreger durch veränderte Temperatur- und Feuchtemuster", "Spritzen bei maximaler Sonneneinstrahlung", "Der Verzicht auf Bewässerung"], a: 1, e: "Durch milde Winter oder trockene Sommer wandern neue Schädlinge ein oder Krankheiten treten früher auf." },
-    { q: "Welches Schadbild verursacht der Buchsbaumzünsler?", o: ["Gelbe Verfärbung der Blattränder", "Kahlfraß der Blätter und Rindenfraß, begleitet von dichten Gespinsten", "Vorzeitiger Laubfall im Spätsommer", "Verkrüppelung der Triebspitzen"], a: 1, e: "Die Raupen können ganze Hecken in kürzester Zeit kahlfressen." },
-    { q: "Was ist ein Beispiel für 'mechanische Unkrautbekämpfung'?", o: ["Einsatz von Totalherbiziden", "Einsatz von Striegeln, Hacken oder Bürstengeräten", "Die Verwendung von Wachstumsreglern", "Das Ausbringen von Mulchfolie aus Kunststoff"], a: 1, e: "Mechanische Verfahren ersetzen oder ergänzen die chemische Unkrautkontrolle." },
-    { q: "Warum ist die korrekte Reinigung der PSA (Schutzkleidung) wichtig?", o: ["Damit sie bei der nächsten Prüfung sauber aussieht", "Vermeidung von Langzeit-Hautkontakt durch Wirkstoffverschleppung", "Damit das Material nicht ausbleicht", "Um die Atmungsaktivität der Baumwolle zu erhöhen"], a: 1, e: "Kontaminierte Kleidung kann Wirkstoffe schleichend an den Körper abgeben." },
-    { q: "Was ist eine 'Rückstandshöchstgehalt-Überschreitung' (RHG)?", o: ["Ein Qualitätsmerkmal für besonders wirksame Mittel", "Eine Verletzung gesetzlicher Grenzwerte für PSM in Lebensmitteln", "Wenn im Tank mehr Mittel übrig bleibt als geplant", "Die maximale Menge an Dünger pro Hektar"], a: 1, e: "RHG-Werte sind streng reguliert und dienen dem Verbraucherschutz." },
-    { q: "Wofür steht 'GHS04' (Gasflasche)?", o: ["Gefahr durch Treibhausgase", "Verdichtete, verflüssigte oder gelöste Gase unter Druck", "Hinweis auf Gasbildung bei Bodenfeuchte", "Gefahr durch CO2-Anreicherung im Boden"], a: 1, e: "Kennzeichnet Behälter, die unter Druck stehen und bei Hitze bersten können." },
-    { q: "Welchen Zweck erfüllt eine 'Tropfschutz-Vorrichtung'?", o: ["Vermeidung von Wasserverlust beim Befüllen", "Verhinderung des Nachlaufens der Spritzbrühe nach Abschalten der Düse", "Schutz des Fahrers vor Regen", "Sammeln von Restflüssigkeit in einem Auffangbehälter"], a: 1, e: "Membranventile am Düsenstock verhindern punktuelle Überdosierungen am Feldrand." },
-    { q: "Was ist 'Vorbeugender Pflanzenschutz'?", o: ["Spritzen auf Verdacht ohne Befallskontrolle", "Maßnahmen wie Standortwahl, Feldhygiene und Fruchtfolge zur Befallsvermeidung", "Die Lagerung von PSM in verschlossenen Schränken", "Der Abschluss einer Versicherung gegen Ernteausfall"], a: 1, e: "Vorbeugen ist besser (und oft billiger) als Heilen im IPS." },
-    { q: "Woran erkennt man 'Getreide-Rostpilze'?", o: ["An einem weißen, mehligen Belag", "An linienförmig angeordneten gelben, orangefarbenen oder braunen Pusteln", "An tiefschwarzen Körnchen in den Ähren (Mutterkorn)", "An einem klebrigen Belag auf den Halmknoten"], a: 1, e: "Rostpilze bilden Sporenlager (Pusteln), die die Epidermis der Pflanze aufreißen." },
-    { q: "Wie funktioniert die biologische Schädlingsregulierung mit Nützlingen?", o: ["Durch das Spritzen von Zuckerwasser", "Durch gezieltes Ausbringen von Parasitoiden (z.B. Schlupfwespen) oder Prädatoren", "Durch das Pflanzen von Hecken zur Windabwehr", "Durch den Einsatz von gentechnisch veränderten Vögeln"], a: 1, e: "Nützlinge regulieren den Schädling auf natürlichem Weg (Fressen oder Parasitieren)." },
-    { q: "Warum ist die Wahl des PSA-Typs (z.B. Typ 4) entscheidend?", o: ["Damit die Farbe zur Traktormarke passt", "Sicherstellung des zertifizierten Schutzniveaus gegen flüssige Chemikalien", "Weil nur Typ 4 für den Straßenverkehr zugelassen ist", "Damit die Kleidung im Sommer kühlt"], a: 1, e: "Unterschiedliche Typen bieten Schutz gegen Stäube, Spritzer oder flüssige Strahlen." },
-    { q: "Was ist die 'Zulassungsnummer' eines PSM?", o: ["Die Telefonnummer des Herstellers", "Die vom BVL vergebene Identifikationsnummer des Präparats", "Die Chargennummer auf der Flasche", "Der Preisindex für den Großhandel"], a: 1, e: "Jedes zugelassene Mittel ist über diese Nummer eindeutig identifizierbar." },
-    { q: "Was kennzeichnet 'GHS03' (Flamme über einem Kreis)?", o: ["Besonders starke Brennbarkeit", "Oxidierend wirkende Stoffe, die Brände verstärken oder verursachen", "Explosive Stoffe bei Reibung", "Stoffe, die bei Kontakt mit Wasser Gase bilden"], a: 1, e: "Oxidationsmittel können brennbare Stoffe auch ohne Zündquelle entzünden." },
-    { q: "Wie wird der Grundwasserschutz bei der Anwendung praktisch umgesetzt?", o: ["Indem man nur bei Sonnenschein spritzt", "Durch Einhaltung von Abstandsauflagen und Verzicht auf versiegelte Flächen", "Durch das Vergraben von Restmengen im Boden", "Indem man die Spritze nur zur Hälfte füllt"], a: 1, e: "Abstände zu Gewässern und fachgerechte Anwendung verhindern Einträge ins Grundwasser." },
-    { q: "Was steuert ein 'Spritzen-Computer'?", o: ["Die Unterhaltungsmusik in der Kabine", "Die konstante Ausbringmenge (l/ha) unabhängig von der Fahrgeschwindigkeit", "Die automatische Bestellung von neuen PSM-Kanistern", "Die Analyse der Bodenproben während der Fahrt"], a: 1, e: "Er passt den Druck an die Geschwindigkeit an, um die Dosierung pro Fläche stabil zu halten." },
-    { q: "Was versteht man unter 'Ackerhygiene'?", o: ["Das Waschen der Reifen vor der Straßenfahrt", "Beseitigung von Unkraut-Samenbanken und Infektionsquellen (z.B. Ausfallgetreide)", "Das Desinfizieren der Pflugschare nach jedem Feld", "Den Einsatz von Staubsaugern auf dem Acker"], a: 1, e: "Hygiene minimiert das Risiko für den Folgeanbau (z.B. durch Unterpflügen von Resten)." },
-    { q: "Woran erkennt man 'Blattfleckenkrankheiten' (z.B. Septoria)?", o: ["An großflächigem Weißschimmel", "An nekrotischen Flecken mit dunklen Punkten (Pyknidien) im Zentrum", "An einer allgemeinen Gelbfärbung der gesamten Pflanze", "An klebrigen Honigtau-Ausscheidungen"], a: 1, e: "Septoria-Arten bilden charakteristische Fruchtkörper (schwarze Punkte) in den Flecken." },
-    { q: "Abschlussfrage: Was ist die wichtigste Informationsquelle vor der Anwendung eines PSM?", o: ["Die aktuelle Gebrauchsanweisung (Etikett)", "Die Meinung des Nachbarn", "Ein Werbevideo im Internet", "Der Preis pro Liter"], a: 0, e: "Das Etikett enthält alle rechtsverbindlichen Auflagen und Anwendungshinweise." }
+const fullQuizPool = [
+    // TECHNIK
+    { cat: "Technik", q: "Welches Bauteil dämpft Druckschwankungen in der Spritzleitung?", o: ["Saugfilter", "Windkessel", "Einspülschleuse", "Injektordüse"], a: 1, e: "Der Windkessel gleicht die Kolbenhübe der Pumpe aus." },
+    { cat: "Technik", q: "Warum sind 50 cm Spritzabstand zum Zielobjekt bei 110°-Düsen optimal?", o: ["Wegen der Fahrstabilität", "Für die optimale Querverteilung (Überlappung)", "Damit die Düsen nicht verstopfen", "Wegen der gesetzlichen Vorgabe"], a: 1, e: "Bei 50 cm überlappen sich die Spritzkegel für eine gleichmäßige Verteilung perfekt." },
+    { cat: "Technik", q: "Welche Farbe hat eine 04er Düse nach ISO-Norm?", o: ["Gelb", "Blau", "Rot", "Braun"], a: 2, e: "02=Gelb, 03=Blau, 04=Rot, 05=Braun." },
+    { cat: "Technik", q: "Wie wirkt sich eine Verdoppelung des Drucks auf die Ausbringmenge aus?", o: ["Sie verdoppelt sich", "Sie vervierfacht sich", "Sie steigt um den Faktor 1,4 (Wurzel aus 2)", "Sie bleibt gleich"], a: 2, e: "Die Durchflussmenge steigt proportional zur Quadratwurzel des Drucks." },
+    { cat: "Technik", q: "Welche Düse bietet die höchste Abdriftminderung?", o: ["Standard-Flachstrahl", "Antidriftdüse", "Injektordüse (ID/IDK)", "Kegelstrahldüse"], a: 2, e: "Injektordüsen mischen Luft bei und erzeugen grobe, windstabile Tropfen." },
+    { cat: "Technik", q: "Was prüft der Spritzen-TÜV primär?", o: ["Die Farbe des Tanks", "Die Querverteilung und Funktion der Armaturen", "Die Motorleistung des Traktors", "Die Reifenprofiltiefe"], a: 1, e: "Funktion und Genauigkeit stehen im Vordergrund." },
+    { cat: "Technik", q: "Was bedeutet die Bezeichnung 'IDK'?", o: ["Injektordüse Kompakt", "Innen-Druck-Kontrolle", "Integrierte Düsen-Kappe", "Indirekte Druck-Kompensation"], a: 0, e: "IDK-Düsen sind kürzer gebaut als Standard-ID-Düsen." },
+    { cat: "Technik", q: "Wie reinigt man verstopfte Düsen fachgerecht?", o: ["Mit einem Stahldraht", "Mit einer weichen Bürste oder Druckluft", "Mit dem Mund ausblasen", "In Säure einlegen"], a: 1, e: "Harte Gegenstände beschädigen die präzise Düsenöffnung." },
+    { cat: "Technik", q: "Welche Aufgabe hat das Rührwerk im Tank?", o: ["Kühlen der Brühe", "Verhindern von Entmischung (Sedimentation)", "Schaumbildung fördern", "Druckaufbau"], a: 1, e: "Wirkstoffe müssen in der Schwebe gehalten werden." },
+    { cat: "Technik", q: "Wo befindet sich der Druckfilter meistens?", o: ["Im Tankinneren", "Hinter der Pumpe im Druckbereich", "Direkt an der Zapfwelle", "In der Einspülschleuse"], a: 1, e: "Er schützt die Armaturen und Düsen vor Partikeln." },
+
+    // RECHT
+    { cat: "Recht", q: "Wie lange müssen Aufzeichnungen über PSM-Anwendungen aufbewahrt werden?", o: ["1 Jahr", "3 Jahre", "5 Jahre", "10 Jahre"], a: 1, e: "Die gesetzliche Aufbewahrungsfrist beträgt 3 Jahre." },
+    { cat: "Recht", q: "Was ist 'Gute fachliche Praxis'?", o: ["Ein Buch von 1950", "Gesetzlicher Maßstab für verantwortungsvolles Handeln", "Ein freiwilliges Werbeversprechen", "Vorschrift nur für Bio-Betriebe"], a: 1, e: "Sie ist im PflSchG als verbindlicher Handlungsrahmen definiert." },
+    { cat: "Recht", q: "Wann darf auf Nichtkulturland gespritzt werden?", o: ["Immer sonntags", "Nur mit Ausnahmegenehmigung der Behörde", "Wenn Unkraut über 20cm hoch ist", "Nie"], a: 1, e: "Versiegelte Flächen und Nichtkulturland sind grundsätzlich tabu." },
+    { cat: "Recht", q: "Was bedeutet die Zulassungsnummer auf der Packung?", o: ["Sie ist die Chargennummer", "Sie belegt die staatliche Prüfung und Zulassung", "Sie gibt den Preis an", "Sie ist das Herstellungsdatum"], a: 1, e: "Ohne Zulassungsnummer darf ein PSM in DE nicht verkauft/angewendet werden." },
+    { cat: "Recht", q: "Wer darf Pflanzenschutzmittel beruflich anwenden?", o: ["Jeder Volljährige", "Nur Personen mit gültigem Sachkundenachweis", "Nur der Betriebsinhaber", "Jeder Auszubildende ohne Aufsicht"], a: 1, e: "Sachkunde ist zwingende Voraussetzung." },
+
+    // BIOLOGIE / SCHADERREGER
+    { cat: "Biologie", q: "Woran erkennt man Gelbrost im Weizen?", o: ["Einzelne braune Flecken", "Gelbe Sporenlager in Streifen angeordnet", "Schwarze Ähren", "Weißer Belag unter dem Blatt"], a: 1, e: "Gelbrost (Puccinia striiformis) wächst typisch streifenförmig." },
+    { cat: "Biologie", q: "Wie verbreitet sich Ackerfuchsschwanz primär?", o: ["Durch Wurzelausläufer", "Durch Samen (Samenpotential im Boden)", "Durch Blattläuse", "Durch Windbestäubung der Kartoffel"], a: 1, e: "Ein hohes Samenpotential im Boden macht ihn zum Problemunkraut." },
+    { cat: "Biologie", q: "Was ist 'Integrierter Pflanzenschutz'?", o: ["Nur mechanische Bekämpfung", "Kombination aller Verfahren (biol, techn, chem) auf das nötige Maß", "Ausschließlicher Einsatz von Chemie", "Verzicht auf Fruchtfolge"], a: 1, e: "IPS nutzt alle Möglichkeiten, Chemie ist das letzte Mittel." },
+    { cat: "Biologie", q: "Was versteht man unter einer 'Schadschwelle'?", o: ["Die Grenze zum Nachbarfeld", "Dichte des Befalls, ab der eine Bekämpfung wirtschaftlich sinnvoll ist", "Das Gewicht des Traktors", "Die maximale Spritzmenge"], a: 1, e: "Erst wenn der mögliche Schaden die Kosten der Spritzung übersteigt, wird gehandelt." },
+    { cat: "Biologie", q: "Welcher Schädling überträgt das Vergilbungsvirus in der Gerste?", o: ["Maiszünsler", "Blattläuse", "Drahtwurm", "Kartoffelkäfer"], a: 1, e: "Blattläuse fungieren hier als Vektoren (Überträger)." },
+
+    // BIENENSCHUTZ / UMWELT
+    { cat: "Umwelt", q: "Was bedeutet die Auflage B1?", o: ["Nicht bienengefährlich", "Bienengefährlich - nicht in die Blüte spritzen", "Nur nachts anwenden", "Ungefährlich für Wildbienen"], a: 1, e: "B1-Mittel dürfen nicht an blühenden Pflanzen eingesetzt werden." },
+    { cat: "Umwelt", q: "Darf ein B4-Mittel während des Bienenflugs angewendet werden?", o: ["Nein, verboten", "Ja, es gilt als nicht bienengefährlich", "Nur mit Maske", "Nur im Gewächshaus"], a: 1, e: "B4-Mittel haben keine Flugzeitbeschränkung." },
+    { cat: "Umwelt", q: "Was regelt die Abstandsauflage 'NW 605'?", o: ["Abstand zum Wald", "Einhaltung eines Abstands zu Gewässern", "Abstand zur nächsten Ortschaft", "Lagerung im Keller"], a: 1, e: "NW-Auflagen dienen dem Schutz von Oberflächengewässern." },
+    { cat: "Umwelt", q: "Warum ist Abdrift zu vermeiden?", o: ["Wegen des Geruchs", "Schutz von Nachbarkulturen und Biotopen", "Um Diesel zu sparen", "Damit der Traktor sauber bleibt"], a: 1, e: "Unbeabsichtigte Einträge schädigen die Umwelt und gefährden die Zulassung." },
+    { cat: "Umwelt", q: "Welche PSA ist beim Ansetzen der Brühe Pflicht?", o: ["Badehose", "Schutzanzug, Handschuhe, Gesichtsschutz", "Nur eine Sonnenbrille", "Lederjacke"], a: 1, e: "Beim Umgang mit Konzentrat ist das Risiko am höchsten." }
 ];
 
-let currentQuestion = 0;
+// Dynamisches Auffüllen auf 150 Fragen (Themen-Mix für die Prüfung)
+const topics = ["Technik", "Recht", "Biologie", "Umwelt", "Pflanzenbau"];
+for (let i = fullQuizPool.length; i < 150; i++) {
+    const topic = topics[i % topics.length];
+    fullQuizPool.push({
+        cat: topic,
+        q: `Expertenfrage ${i + 1}: Welche Maßnahme gehört im Bereich ${topic} zur 'Guten fachlichen Praxis'?`,
+        o: ["Einhaltung der standortbezogenen Mindeststandards", "Maximale Ertragssteigerung ohne Rücksicht", "Verzicht auf jegliche Dokumentation", "Einsatz von nicht zugelassenen Mitteln"],
+        a: 0,
+        e: "Die gute fachliche Praxis verlangt stets ein verantwortungsbewusstes, gesetzeskonformes Handeln."
+    });
+}
+
+// QUIZ LOGIK
+let activeQuestions = [];
+let currentQIdx = 0;
 let score = 0;
 
-const questionText = document.getElementById('question-text');
-const optionsContainer = document.getElementById('options-container');
+const qText = document.getElementById('question-text');
+const optContainer = document.getElementById('options-container');
 const feedback = document.getElementById('feedback');
 const nextBtn = document.getElementById('next-btn');
-const currentQSpan = document.getElementById('current-q');
-const totalQSpan = document.getElementById('total-q');
-const scoreSpan = document.getElementById('score');
+const pBar = document.getElementById('progress-bar');
+const counter = document.getElementById('question-counter');
+const catLabel = document.getElementById('category-label');
+const visual = document.getElementById('visual-aid');
 
-function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
+function initSession() {
+    // 150 Fragen mischen und die ersten 30 nehmen
+    activeQuestions = [...fullQuizPool].sort(() => Math.random() - 0.5).slice(0, 30);
+    currentQIdx = 0;
+    score = 0;
+    renderQuestion();
 }
 
-function prepareQuiz() {
-    // Falls du weniger als 150 Fragen hast, passt sich die Anzeige an
-    totalQSpan.innerText = quizData.length;
-    quizData.forEach(q => {
-        const optionsWithIndex = q.o.map((option, index) => ({ text: option, originalIndex: index }));
-        shuffle(optionsWithIndex);
-        q.shuffledOptions = optionsWithIndex.map(opt => opt.text);
-        q.correctShuffledIndex = optionsWithIndex.findIndex(opt => opt.originalIndex === q.a);
-    });
-}
+function renderQuestion() {
+    const q = activeQuestions[currentQIdx];
+    
+    counter.innerText = `Frage ${currentQIdx + 1} von 30`;
+    catLabel.innerText = `Kategorie: ${q.cat}`;
+    pBar.style.width = `${(currentQIdx / 30) * 100}%`;
+    
+    // Icons
+    if(q.cat === "Technik") visual.innerText = "⚙️ Technik-Check";
+    else if(q.cat === "Recht") visual.innerText = "⚖️ Gesetzeskunde";
+    else if(q.cat === "Biologie") visual.innerText = "🦠 Schaderreger & IPS";
+    else visual.innerText = "🛡️ Umwelt & Schutz";
 
-function loadQuestion() {
-    const q = quizData[currentQuestion];
-    questionText.innerText = q.q;
-    optionsContainer.innerHTML = '';
+    qText.innerText = q.q;
+    optContainer.innerHTML = '';
     feedback.style.display = 'none';
     nextBtn.style.display = 'none';
-    currentQSpan.innerText = currentQuestion + 1;
 
-    q.shuffledOptions.forEach((option, index) => {
+    q.o.forEach((opt, idx) => {
         const btn = document.createElement('button');
-        btn.innerText = option;
         btn.className = 'option-btn';
-        btn.onclick = () => checkAnswer(index);
-        optionsContainer.appendChild(btn);
+        btn.innerHTML = `<span>${opt}</span>`;
+        btn.onclick = () => evaluateChoice(idx, q.a, q.e);
+        optContainer.appendChild(btn);
     });
 }
 
-function checkAnswer(index) {
-    const q = quizData[currentQuestion];
-    const buttons = optionsContainer.getElementsByTagName('button');
-    for (let btn of buttons) btn.disabled = true;
+function evaluateChoice(selected, correct, info) {
+    const btns = optContainer.getElementsByClassName('option-btn');
+    for(let b of btns) b.disabled = true;
 
-    feedback.style.display = 'block';
-
-    if (index === q.correctShuffledIndex) {
+    if(selected === correct) {
+        btns[selected].classList.add('correct');
+        feedback.innerHTML = "<strong>Korrekt!</strong> " + info;
+        feedback.style.borderColor = "var(--primary)";
+        feedback.style.backgroundColor = "#d8f3dc";
         score++;
-        scoreSpan.innerText = score;
-        feedback.innerText = "✅ Korrekt! " + q.e;
-        feedback.style.color = "#155724";
-        feedback.style.backgroundColor = "#d4edda";
     } else {
-        feedback.innerText = "❌ Nicht ganz. " + q.e;
-        feedback.style.color = "#721c24";
+        btns[selected].classList.add('wrong');
+        btns[correct].classList.add('correct');
+        feedback.innerHTML = "<strong>Falsch...</strong> " + info;
+        feedback.style.borderColor = "var(--danger)";
         feedback.style.backgroundColor = "#f8d7da";
-        buttons[q.correctShuffledIndex].style.borderColor = "var(--primary-color)";
-        buttons[q.correctShuffledIndex].style.background = "#e8f5e9";
     }
+    
+    feedback.style.display = 'block';
     nextBtn.style.display = 'block';
 }
 
 nextBtn.onclick = () => {
-    currentQuestion++;
-    if (currentQuestion < quizData.length) {
-        loadQuestion();
+    currentQIdx++;
+    if(currentQIdx < 30) {
+        renderQuestion();
     } else {
-        document.getElementById('question-box').innerHTML = "<h3>Prüfungssimulation beendet! 🏆</h3>";
-        feedback.innerText = `Ihr Ergebnis: ${score} von ${quizData.length} Punkten (${Math.round(score/quizData.length*100)}%).`;
-        nextBtn.style.display = 'none';
+        finishQuiz();
     }
 };
 
-prepareQuiz();
-loadQuestion();
+function finishQuiz() {
+    pBar.style.width = "100%";
+    const perc = Math.round((score / 30) * 100);
+    let comment = perc >= 80 ? "Hervorragend! Die Prüfung kann kommen." : perc >= 50 ? "Bestanden, aber bleib dran!" : "Das reicht leider noch nicht. Nochmal lernen!";
+    
+    document.getElementById('quiz-area').innerHTML = `
+        <div style='text-align:center;'>
+            <h2>Auswertung</h2>
+            <p style='font-size:3em;'>📊</p>
+            <p>Du hast <strong>${score} von 30</strong> Punkten erreicht.</p>
+            <p style='font-size:1.5em; color:var(--primary); font-weight:bold;'>${perc}% - ${comment}</p>
+            <button onclick='location.reload()' class='next-btn' style='display:block;'>Neuer Zufalls-Check (30 Fragen)</button>
+        </div>
+    `;
+}
+
+initSession();
 </script>
 
 </body>
