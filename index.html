@@ -836,16 +836,18 @@ function startQuiz() {
   renderQuestion();
 }
 
+let currentShuffledOpts = []; // safe reference, no HTML attribute passing
+
 function renderQuestion() {
   const q = activeQuestions[currentIndex];
   const progress = ((currentIndex) / 30) * 100;
 
-  // Shuffle options but keep original index reference
-  let opts = q.o.map((text, i) => ({text, origIdx: i}));
-  opts.sort(() => Math.random() - 0.5);
+  // Shuffle options and store in module-level variable
+  currentShuffledOpts = q.o.map((text, i) => ({text, origIdx: i}));
+  currentShuffledOpts.sort(() => Math.random() - 0.5);
 
-  const optionsHTML = opts.map((opt, pos) => `
-    <button class="opt-btn" onclick="checkAnswer(${opt.origIdx}, ${q.a}, this, '${escapeForAttr(q.e)}')" data-orig="${opt.origIdx}">
+  const optionsHTML = currentShuffledOpts.map((opt, pos) => `
+    <button class="opt-btn" onclick="checkAnswer(${opt.origIdx})" data-orig="${opt.origIdx}">
       <span class="opt-letter">${letters[pos]}</span>
       <span>${opt.text}</span>
     </button>
@@ -873,18 +875,18 @@ function renderQuestion() {
   `;
 }
 
-function escapeForAttr(str) {
-  return str.replace(/'/g, "&#39;").replace(/"/g, "&quot;");
-}
+function checkAnswer(selected) {
+  const q = activeQuestions[currentIndex];
+  const correct = q.a;
+  const explanation = q.e;
 
-function checkAnswer(selected, correct, clickedBtn, explanation) {
   const allBtns = document.querySelectorAll('.opt-btn');
   allBtns.forEach(b => b.disabled = true);
 
   const fb = $('feedback');
   const nextBtn = $('next-btn');
 
-  // Find the correct-answer button
+  // Highlight correct answer
   allBtns.forEach(b => {
     const orig = parseInt(b.getAttribute('data-orig'));
     if(orig === correct) b.classList.add('correct');
@@ -896,7 +898,10 @@ function checkAnswer(selected, correct, clickedBtn, explanation) {
     fb.innerHTML = `<span class="feedback-icon">✅</span><strong>Richtig!</strong> ${explanation}`;
   } else {
     wrongCount++;
-    clickedBtn.classList.add('wrong');
+    // Highlight the clicked wrong button
+    allBtns.forEach(b => {
+      if(parseInt(b.getAttribute('data-orig')) === selected) b.classList.add('wrong');
+    });
     fb.className = 'feedback wrong-fb';
     fb.innerHTML = `<span class="feedback-icon">❌</span><strong>Falsch.</strong> ${explanation}`;
   }
